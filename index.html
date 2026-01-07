@@ -108,6 +108,22 @@
             max-width: 500px;
         }
 
+        .tts-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .tts-controls button {
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 20px;
+            border: 1px solid #666;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: inherit;
+        }
+
         footer {
             text-align: center;
             padding: 25px;
@@ -133,33 +149,39 @@
     <h2>Podcast Script</h2>
 
     <div class="audio-box">
-        <p><strong>Listen to the podcast</strong></p>
-        <!-- Replace podcast.mp3 with your actual audio file -->
+        <p><strong>Listen (Audio File)</strong></p>
         <audio controls>
             <source src="podcast.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
         </audio>
     </div>
 
-    <p><strong>Host:</strong> Close your eyes for a moment. Imagine a place where mornings begin with the sound of a hand pump, not an alarm. Where the day’s first conversation happens over a cup of chai, not a phone screen.</p>
+    <div class="tts-controls">
+        <p><strong>Listen to narrated script</strong></p>
+        <button onclick="playNarration()">Play Narration</button>
+        <button onclick="stopNarration()">Stop</button>
+    </div>
 
-    <p>That’s where today’s story begins.</p>
+    <div id="script">
+        <p><strong>Host:</strong> Close your eyes for a moment. Imagine a place where mornings begin with the sound of a hand pump, not an alarm. Where the day’s first conversation happens over a cup of chai, not a phone screen.</p>
 
-    <p>When we talk about rural development, we often talk <em>about</em> villages. But we rarely talk <em>from</em> them. So today, I want to do something different. I want to tell you what rural development feels like.</p>
+        <p>That’s where today’s story begins.</p>
 
-    <p>I once visited a small village — not famous, not forgotten either. Just existing. The kind of place where everyone knows your name by the second day.</p>
+        <p>When we talk about rural development, we often talk about villages. But we rarely talk from them. So today, I want to do something different. I want to tell you what rural development feels like.</p>
 
-    <p>There was a woman there named Sita. She ran a tiny shop — biscuits, soap, school notebooks. Nothing fancy. But that shop meant kids didn’t have to walk kilometers for a pencil. It meant she earned her own income. That shop was development, quietly standing behind a wooden counter.</p>
+        <p>I once visited a small village — not famous, not forgotten either. Just existing. The kind of place where everyone knows your name by the second day.</p>
 
-    <p>Then there were young boys sitting under a neem tree every evening. Talking about starting something of their own — maybe poultry, maybe farming, maybe something new. Not because they had all the answers, but because for the first time, they believed staying back was also an option.</p>
+        <p>There was a woman there named Sita. She ran a tiny shop — biscuits, soap, school notebooks. Nothing fancy. But that shop meant kids didn’t have to walk kilometers for a pencil. It meant she earned her own income. That shop was development, quietly standing behind a wooden counter.</p>
 
-    <p>Rural development isn’t sudden. It’s not glass buildings or instant change. It’s a repaired road. A working school toilet. Water closer to home. Small changes that give people time, dignity, and hope.</p>
+        <p>Then there were young boys sitting under a neem tree every evening. Talking about starting something of their own — maybe poultry, maybe farming, maybe something new. Not because they had all the answers, but because for the first time, they believed staying back was also an option.</p>
 
-    <p>What I learned there is this — development doesn’t arrive. It grows. Slowly. When people are heard. When solutions respect tradition. When progress stays.</p>
+        <p>Rural development isn’t sudden. It’s not glass buildings or instant change. It’s a repaired road. A working school toilet. Water closer to home. Small changes that give people time, dignity, and hope.</p>
 
-    <p>So the next time you hear the words <strong>rural development</strong>, don’t imagine a policy document. Imagine Sita opening her shop at sunrise. Imagine children running to school. Imagine hope — steady, grounded, and real.</p>
+        <p>What I learned there is this — development doesn’t arrive. It grows. Slowly. When people are heard. When solutions respect tradition. When progress stays.</p>
 
-    <p>Because the strongest foundations are always built at the roots.</p>
+        <p>So the next time you hear the words rural development, don’t imagine a policy document. Imagine Sita opening her shop at sunrise. Imagine children running to school. Imagine hope — steady, grounded, and real.</p>
+
+        <p>Because the strongest foundations are always built at the roots.</p>
+    </div>
 </div>
 
 <footer>
@@ -178,8 +200,25 @@
             }
         });
     });
-
     observer.observe(document.getElementById('story'));
+
+    let speech;
+
+    function playNarration() {
+        stopNarration();
+        const text = document.getElementById("script").innerText;
+        speech = new SpeechSynthesisUtterance(text);
+        speech.rate = 0.95;
+        speech.pitch = 1;
+        speech.volume = 1;
+        window.speechSynthesis.speak(speech);
+    }
+
+    function stopNarration() {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+    }
 </script>
 
 </body>
