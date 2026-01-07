@@ -4,20 +4,41 @@
     <meta charset="UTF-8">
     <title>Roots of Change – Podcast</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
+        :root {
+            --bg: #f6f5f2;
+            --text: #2c2c2c;
+            --header: #1f3d2b;
+            --card: #ffffff;
+        }
+
+        body.dark {
+            --bg: #121212;
+            --text: #e5e5e5;
+            --header: #0f2a1d;
+            --card: #1e1e1e;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: Georgia, "Times New Roman", serif;
-            background: #f6f5f2;
-            color: #2c2c2c;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
+            transition: background 0.4s, color 0.4s;
         }
 
         header {
-            background: #1f3d2b;
+            background: var(--header);
             color: white;
             padding: 60px 20px;
             text-align: center;
+            position: relative;
         }
 
         header h1 {
@@ -31,6 +52,19 @@
             opacity: 0.9;
         }
 
+        .toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
         .image-section img {
             width: 100%;
             max-height: 420px;
@@ -40,7 +74,18 @@
         .content {
             max-width: 800px;
             margin: 50px auto;
-            padding: 0 20px;
+            padding: 30px;
+            background: var(--card);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .content.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .content h2 {
@@ -53,12 +98,22 @@
             font-size: 1.05rem;
         }
 
+        .audio-box {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 500px;
+        }
+
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             font-size: 0.95rem;
-            color: #555;
-            border-top: 1px solid #ddd;
+            color: #888;
+            border-top: 1px solid #3333;
         }
     </style>
 </head>
@@ -67,14 +122,24 @@
 <header>
     <h1>Roots of Change</h1>
     <p>A Podcast on Rural Development & Human Stories</p>
+    <button class="toggle" onclick="toggleMode()">Dark Mode</button>
 </header>
 
 <section class="image-section">
     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="Rural landscape">
 </section>
 
-<div class="content">
+<div class="content" id="story">
     <h2>Podcast Script</h2>
+
+    <div class="audio-box">
+        <p><strong>Listen to the podcast</strong></p>
+        <!-- Replace podcast.mp3 with your actual audio file -->
+        <audio controls>
+            <source src="podcast.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
     <p><strong>Host:</strong> Close your eyes for a moment. Imagine a place where mornings begin with the sound of a hand pump, not an alarm. Where the day’s first conversation happens over a cup of chai, not a phone screen.</p>
 
@@ -100,6 +165,22 @@
 <footer>
     Sarika Ram Nath
 </footer>
+
+<script>
+    function toggleMode() {
+        document.body.classList.toggle('dark');
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    });
+
+    observer.observe(document.getElementById('story'));
+</script>
 
 </body>
 </html>
